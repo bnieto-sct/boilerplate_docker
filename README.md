@@ -26,7 +26,7 @@ Una vez copiado se puede iniciar con la construccion de la imagen de docker y po
 `docker-compose up -d --build`
 
 
-Si todo sale done podremos ir al [http://0.0.0.0:3002/](http://0.0.0.0:3002/ "http://0.0.0.0:3002/") donde vive nuestra app y podremos ver la documentación de la api.
+Si todo sale done podremos ir al [http://0.0.0.0:4500/](http://0.0.0.0:4500/ "http://0.0.0.0:3002/") donde vive nuestra app y podremos ver la documentación de la api.
 
 Lo siguiente que debemos hacer es seguir estos comandos para aplicar las migraciones y crear un usuario en nuestro administrador:
 - `docker-compose exec app python3 manage.py makemigrations`
