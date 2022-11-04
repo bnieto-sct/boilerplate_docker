@@ -6,14 +6,13 @@ from rest_framework_swagger.views import get_swagger_view
 
 router = DefaultRouter()
 
-schema_view = get_swagger_view(title='Belihebe')
+schema_view = get_swagger_view(title="Peacedev Team")
 
 PREFIX_URL = settings.PREFIX_URL
 urlpatterns = [
-      url(r'^{}admin/'.format(PREFIX_URL), admin.site.urls),
-      url(r'^{}auth/'.format(PREFIX_URL), include('rest_auth.urls')),
-      url(r'^{}$'.format(PREFIX_URL), schema_view),
-      url(r'^{}api/'.format(PREFIX_URL), include(router.urls)),
-      url(r'^{}api/v1/inventory/'.format(PREFIX_URL), include('backend.apps.inventory.urls')),
+    url(f"^{PREFIX_URL}$", schema_view),
+    url(f"^{PREFIX_URL}admin/", admin.site.urls),
+    url(f"^{PREFIX_URL}auth/", include("rest_auth.urls")),
+    url(f"^{PREFIX_URL}api/", include(router.urls)),
+    url(f"^{PREFIX_URL}api/v1/account/", include("backend.apps.account.urls")),
 ]
-

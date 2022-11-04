@@ -1,93 +1,99 @@
 version: "2"
 services:
   nginx:
-    extends:
-      file: base.yml
-      service: nginx
+    build: ./nginx
+    volumes:
+      - ./app:/app
     links:
       - app
     ports:
-      - "3002:80"
+      - "4500:80"
 
   postgres:
-    extends:
-      file: base.yml
-      service: postgres
+    image: postgres:10.1
     volumes:
       - ./db-data:/var/lib/postgresql/data/
+    env_file: .env
 
   redis:
-    extends:
-      file: base.yml
-      service: redis
+    image: redis:5.0
 
   app:
-    restart: always
-    extends:
-      file: base.yml
-      service: app
-    environment:
-      - DJANGO_SETTINGS_MODULE=backend.settings.dev
     build:
+      context: ./app
       args:
         - DJANGO_ENV=dev
+    command: sh ./scripts/app.sh
+    volumes:
+      - ./app:/app
+    restart: on-failure
+    env_file: .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=backend.settings.dev
     links:
       - redis
       - postgres
-    env_file: .env
 
   worker:
-    extends:
-      file: base.yml
-      service: worker
-    environment:
-      - DJANGO_SETTINGS_MODULE=backend.settings.dev
     build:
+      context: ./app
       args:
         - DJANGO_ENV=dev
+    command: celery -A backend worker -l info
+    volumes:
+      - ./app:/app
+    restart: on-failure
+    env_file: .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=backend.settings.dev
     links:
       - redis
       - postgres
 
   beat:
-    extends:
-      file: base.yml
-      service: beat
-    environment:
-      - DJANGO_SETTINGS_MODULE=backend.settings.dev
     build:
+      context: ./app
       args:
         - DJANGO_ENV=dev
+    command: celery -A backend beat -l info --pidfile=/home/app/celery.pid
+    volumes:
+      - ./app:/app
+    restart: on-failure
+    env_file: .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=backend.settings.dev
     links:
       - redis
       - postgres
-  
+
   websockets_worker:
-    extends:
-      file: base.yml
-      service: websockets_worker
-    environment:
-      - DJANGO_SETTINGS_MODULE=backend.settings.dev
     build:
+      context: ./app
       args:
         - DJANGO_ENV=dev
+    command: python3 manage.py runworker --only-channels=http.* --only-channels=websocket.* -v2
+    volumes:
+      - ./app:/app
+    restart: on-failure
+    env_file: .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=backend.settings.dev
     links:
       - app
       - redis
-      
+
   daphne:
-    extends:
-      file: base.yml
-      service: daphne
-    environment:
-      - DJANGO_SETTINGS_MODULE=backend.settings.dev
     build:
+      context: ./app
       args:
         - DJANGO_ENV=dev
+    command: daphne -b 0.0.0.0 -p 8001 backend.asgi:channel_layer
+    volumes:
+      - ./app:/app
+    restart: on-failure
+    env_file: .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=backend.settings.dev
     links:
       - app
       - redis
-
-
-
-  
