@@ -1,2 +1,3 @@
-from channels import route
+# from channels import route
+
 channel_routing = []

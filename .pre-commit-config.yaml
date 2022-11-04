@@ -16,12 +16,12 @@ repos:
     rev: 3.9.0
     hooks:
     - id: flake8
-      exclude: ^(test.py|app/backend/settings/base.py)
+      exclude: ^(test.py|app/backend/settings)
   - repo: https://github.com/pycqa/isort
     rev: 5.6.4
     hooks:
     - id: isort
-      files: 'src/.*'
+      files: 'app/.*'
   - repo: local
     hooks:
       - id: pylint

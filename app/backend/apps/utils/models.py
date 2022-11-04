@@ -1,7 +1,5 @@
-from django.db import models
-
-from django.db import models
 from backend.apps.utils.managers import MahouModelManager
+from django.db import models
 
 
 class ModelBase(models.Model):
@@ -21,7 +19,7 @@ class ModelBase(models.Model):
         self.set_state(True)
 
     def get_fecha_created(self):
-        return self.created.strftime('%B %d de %Y, %I:%M %p')
+        return self.created.strftime("%B %d de %Y, %I:%M %p")
 
     def get_fecha_updated(self):
-        return self.updated.strftime('%B %d de %Y, %I:%M %p')
+        return self.updated.strftime("%B %d de %Y, %I:%M %p")
