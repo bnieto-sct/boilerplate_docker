@@ -13,6 +13,5 @@ urlpatterns = [
     url(f"^{PREFIX_URL}$", schema_view),
     url(f"^{PREFIX_URL}admin/", admin.site.urls),
     url(f"^{PREFIX_URL}auth/", include("rest_auth.urls")),
-    url(f"^{PREFIX_URL}api/", include(router.urls)),
-    url(f"^{PREFIX_URL}api/v1/account/", include("backend.apps.account.urls")),
+    url(f"^{PREFIX_URL}api/v1/", include("backend.apps.account.urls")),
 ]

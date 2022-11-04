@@ -1,4 +1,10 @@
 """This file provides the urls for accounts module"""
-# from django.conf.urls import url, include
+from django.urls import include, path
+from rest_framework import routers
 
-urlpatterns = []
+from . import viewsets
+
+router = routers.DefaultRouter()
+router.register(r"user", viewsets.MyUserViewSet, basename="user")
+
+urlpatterns = [path(r"", include(router.urls))]
