@@ -31,12 +31,12 @@ Si todo sale done podremos ir al [http://0.0.0.0:4500/](http://0.0.0.0:4500/ "ht
 Lo siguiente que debemos hacer es seguir estos comandos para aplicar las migraciones y crear un usuario en nuestro administrador:
 - `docker-compose exec app python3 manage.py makemigrations`
 - `docker-compose exec app python3 manage.py migrate`
-Nota: También podemos ejecutar el script ./migrate_db.sh
+Nota: También podemos ejecutar el script `./run_migrate.sh`
 
 Para crear un super usuario en nuestro administrador debemos ejecutar el siguiente comando:
 
 `docker-compose exec app python3 manage.py createsuperuser`
-Nota: También podemos ejecutar el script ./createuser.sh
+Nota: También podemos ejecutar el script `./run_create_user.sh`
 
 Para poder hacer uso de nuestro backend debemos crear las tiendas en el admin y usuarios de las tiendas, luego debemos logearnos en nuestra aplicación de angular y podemos ver funcionando la aplicación conectada al backend.
 
@@ -47,7 +47,7 @@ Si queremos detener nuestra imagen podemos hacerlo con este comando:
 Si queremos volver a levantar nuestra nuevamente:
 `docker-compose up -d`
 
-Nota: También podemos ejecutar el script ./rebuild_container.sh para hacer ambas cosas en un sólo comando
+Nota: También podemos ejecutar el script `./run_rebuild.sh` para hacer ambas cosas en un sólo comando
 
 Si quieres desplegar este proyecto en producción, [copia este código](https://gist.github.com/peacedevteam/ff4043930520088d55710afd8ef8eda8)  
 
